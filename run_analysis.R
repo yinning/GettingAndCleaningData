@@ -4,7 +4,7 @@
 
 
 # Set working directory
-setwd("D:/Dropbox/Coursera/01 Data Science/03 Getting and Cleaning Data/Project/UCI HAR Dataset")
+setwd("./Project/UCI HAR Dataset")
 
 # Import features names and activity labels from txt files
 features <- read.table('./features.txt', header=FALSE)
