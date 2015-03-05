@@ -11,11 +11,12 @@ features <- read.table('./features.txt', header=FALSE)
 activityLabels <- read.table('./activity_labels.txt', header=FALSE)
 colnames(activityLabels) <- c('activitylabel','activity')
 
-# Import features data
-xTrain <- read.table('./train/X_train.txt', header=FALSE)
-xTest <- read.table('./test/X_test.txt', header=FALSE)
-colnames(xTrain) <- features[,2]
-colnames(xTest) <- features[,2]
+# Import subjectId
+subjectTrain <- read.table('./train/subject_train.txt', header=FALSE)
+colnames(subjectTrain) <- 'subjectId'
+subjectTest <- read.table('./test/subject_test.txt', header=FALSE)
+colnames(subjectTest) <- 'subjectId'
+subjectFinal <- rbind(subjectTrain,subjectTest)
 
 # Import Dependent variable data
 yTrain <- read.table('./train/Y_train.txt', header=FALSE)
@@ -23,12 +24,15 @@ yTest <- read.table('./test/Y_test.txt', header=FALSE)
 colnames(yTrain) <- 'activitylabel'
 colnames(yTest) <- 'activitylabel'
 
-# Import subjectId
-subjectTrain <- read.table('./train/subject_train.txt', header=FALSE)
-colnames(subjectTrain) <- 'subjectId'
-subjectTest <- read.table('./test/subject_test.txt', header=FALSE)
-colnames(subjectTest) <- 'subjectId'
-subjectFinal <- rbind(subjectTrain,subjectTest)
+# Merge dependent variable data and add in activity name
+yFinal <- rbind(yTrain,yTest)
+yFinal <- merge(yFinal,activityLabels,by.x='activitylabel', by.y='activitylabel',all.x=TRUE
+
+# Import features data
+xTrain <- read.table('./train/X_train.txt', header=FALSE)
+xTest <- read.table('./test/X_test.txt', header=FALSE)
+colnames(xTrain) <- features[,2]
+colnames(xTest) <- features[,2]
 
 # Merge features data
 xAll <- rbind(xTrain,xTest)
@@ -41,9 +45,7 @@ xFinal <- xAll[,logicalVector]
 # to check the what columns are extracted
 # table(colNames[logicalVector])
 
-# Merge dependent variable data and add in activity name
-yFinal <- rbind(yTrain,yTest)
-yFinal <- merge(yFinal,activityLabels,by.x='activitylabel', by.y='activitylabel',all.x=TRUE)
+)
 
 # Merge subject, x and y data, and activity label
 dataFinal <- cbind(subjectFinal,xFinal,yFinal)
